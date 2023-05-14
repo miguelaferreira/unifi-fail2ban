@@ -21,7 +21,7 @@ public class AlertDetectionService {
     public AlertDetectionService(DetectionConfiguration configuration) {
         this.protectedPorts = List.ofAll(configuration.protectedPorts());
         this.protectedCidrs = List.ofAll(configuration.protectedCidrs());
-        this.allowedSrcCidrs = List.ofAll(configuration.allowedSrcCidrs());
+        this.allowedSrcCidrs = List.ofAll(configuration.allowedCidrs());
         allowedCidrsString = allowedSrcCidrs.mkString();
         protectedIpsString = protectedCidrs.mkString();
     }
