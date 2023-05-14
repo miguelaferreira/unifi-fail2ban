@@ -67,13 +67,13 @@ interface UnifiApiClient {
     );
 
     @Get("/proxy/network/api/s/${unifi.site:default}/rest/firewallrule/")
-    ListFirewallRulesResponse getFirewallRule(
+    FirewallRulesResponse getFirewallRule(
             @CookieValue(COOKIE_NAME_AUTH_TOKEN) String authToken,
             @Header(X_CSRF_TOKEN_HEADER) String csrfToken
     );
 
     @Delete("/proxy/network/api/s/${unifi.site:default}/rest/firewallrule/{ruleId}")
-    Map<String, Object> deleteFirewallRule(
+    FirewallRulesResponse deleteFirewallRule(
             @CookieValue(COOKIE_NAME_AUTH_TOKEN) String authToken,
             @Header(X_CSRF_TOKEN_HEADER) String csrfToken,
             String ruleId

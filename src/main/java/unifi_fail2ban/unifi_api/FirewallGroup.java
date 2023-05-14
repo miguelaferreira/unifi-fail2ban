@@ -3,11 +3,13 @@ package unifi_fail2ban.unifi_api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 
 import java.util.List;
 
 @Builder
+@Serdeable
 @Introspected
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record FirewallGroup(

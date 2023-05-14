@@ -116,7 +116,7 @@ public class UnifiApiService {
         return client.getFirewallRule(getAuthToken(), csrfToken()).data();
     }
 
-    Map<String, Object> deleteFirewallRule(String ruleId) {
-        return client.deleteFirewallRule(getAuthToken(), csrfToken(), ruleId);
+    void deleteFirewallRule(String ruleId) {
+        client.deleteFirewallRule(getAuthToken(), csrfToken(), ruleId);
     }
 }
