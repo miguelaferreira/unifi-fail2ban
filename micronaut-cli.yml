@@ -1,0 +1,6 @@
+applicationType: cli
+defaultPackage: unifi.fail2ban
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, github-workflow-ci, graalvm, gradle, http-client, jackson-databind, java, junit, logback, lombok, micronaut-build, picocli, picocli-java-application, picocli-junit, readme, shade, yaml]

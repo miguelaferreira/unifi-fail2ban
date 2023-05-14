@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: unifiFail2ban
+  http:
+    client:
+      ssl:
+        insecure-trust-all-certificates: true
