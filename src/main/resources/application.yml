@@ -5,3 +5,18 @@ micronaut:
     client:
       ssl:
         insecure-trust-all-certificates: true
+
+unifi:
+  host: 192.168.1.1
+  site: default
+
+detect:
+  firewall-group-name: "unifi-fail2ban"
+  allowed-src-cidrs:
+    - "127.0.0.1/32"
+    - "192.168.1.0/22"
+  protected-cidrs:
+    - "192.168.1.2/32"
+  protected-ports:
+    - 22
+    - 443
