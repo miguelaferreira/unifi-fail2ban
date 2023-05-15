@@ -26,7 +26,11 @@ import java.util.concurrent.Callable;
 @Command(
         name = "unifi-fail2ban",
         description = "A tool to block IPs based on IPS events",
-        mixinStandardHelpOptions = true
+        mixinStandardHelpOptions = true,
+        usageHelpAutoWidth = true,
+        footer = {
+                "%nCopyright(c) 2023 - Miguel Ferreira - GitHub/GitLab: @miguelaferreira"
+        }
 )
 @Introspected(
         accessKind = Introspected.AccessKind.FIELD,
@@ -41,22 +45,23 @@ public class UnifiFail2banCommand implements Callable<Integer> {
     public static final int SUCCESS_EXIT_CODE = 0;
     public static final int ERROR_EXIT_CODE = 1;
 
+    @CommandLine.Spec
+    CommandLine.Model.CommandSpec spec;
+
     @MappedProperty("unifi.host")
     @CommandLine.Option(names = {"-h", "--unifi-host"}, description = """
             Set the Unifi API host.
             This parameter can also be set via environment variable UNIFI_HOST.
-            """,
-            defaultValue = "localhost"
-    )
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "localhost", paramLabel = "host")
     String unifiHost;
 
     @MappedProperty("unifi.site")
     @CommandLine.Option(names = {"-s", "--unifi-site"}, description = """
             Set the Unifi Network site.
             This parameter can also be set via environment variable UNIFI_SITE.
-            """,
-            defaultValue = "default"
-    )
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "default", paramLabel = "site")
     String unifiSite;
 
     @MappedProperty("unifi.username")
@@ -64,9 +69,8 @@ public class UnifiFail2banCommand implements Callable<Integer> {
             Set the Unifi Network username to authenticate against the API.
             This parameter can also be set via environment variable UNIFI_USERNAME.
             Please consider setting this parameter on the environment because commands are typically logged.
-            """,
-            defaultValue = "admin"
-    )
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "admin", paramLabel = "username")
     String unifiUsername;
 
     @MappedProperty("unifi.password")
@@ -74,26 +78,23 @@ public class UnifiFail2banCommand implements Callable<Integer> {
             Set the Unifi Network password to authenticate against the API.
             This parameter can also be set via environment variable UNIFI_PASSWORD.
             Please consider setting this parameter on the environment because commands are typically logged.
-            """)
+            """, paramLabel = "password", required = true)
     String unifiPassword;
 
     @MappedProperty("unifi.firewall-group-name")
     @CommandLine.Option(names = {"-g", "--unifi-firewall-group"}, description = """
             Set the Unifi Network Firewall Group name. This group is where blocked IPs will be added.
             This parameter can also be set via environment variable UNIFI_FIREWALL_GROUP_NAME.
-            """,
-            defaultValue = "unifi-fail2ban"
-    )
+            (default: ${DEFAULT-VALUE})
+            """, paramLabel = "group-name", defaultValue = "unifi-fail2ban")
     String unifiFirewallGroupName;
 
     @MappedProperty("detect.allowed-cidrs")
     @CommandLine.Option(names = {"-a", "--allowed-cidrs"}, description = """
             Set a list of CIDRs (separated by commas) that will not be blocked even when they are the src IP in IPS events.
             This parameter can also be set via environment variable DETECT_ALLOWED_CIDRS.
-            """,
-            defaultValue = "",
-            split = ","
-    )
+            (default: none)
+            """, defaultValue = "", split = ",", paramLabel = "CIDR")
     List<String> detectAllowedSrcCidrs;
 
     @MappedProperty("detect.protected-cidrs")
@@ -101,10 +102,8 @@ public class UnifiFail2banCommand implements Callable<Integer> {
             Set a list of CIDRs (separated by commas) that will be monitored as dst IPs in IPS events.
             When IPS events that target IPs in these CIDRs on the defined protected ports are found the src IPs of the traffic are blocked. 
             This parameter can also be set via environment variable DETECT_PROTECTED_CIDRS.
-            """,
-            defaultValue = "192.168.0.0/16",
-            split = ","
-    )
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "192.168.0.0/16", split = ",", paramLabel = "CIDR")
     List<String> detectProtectedCidrs;
 
     @MappedProperty("detect.protected-ports")
@@ -112,16 +111,14 @@ public class UnifiFail2banCommand implements Callable<Integer> {
             Set a list of ports (separated by commas) that will be monitored as dst port in IPS events.
             When IPS events that target these ports on the defined protected IPs are found the src IPs of the traffic are blocked. 
             This parameter can also be set via environment variable DETECT_PROTECTED_PORTS.
-            """,
-            defaultValue = "22,80,443",
-            split = ","
-    )
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "22,80,443", split = ",", paramLabel = "port")
     List<Integer> detectProtectedPorts;
 
     @CommandLine.Option(names = {"--print-configuration"}, description = """
             Have the tool print its configuration instead of running the detection.
-            """,
-            defaultValue = "false"
+            (default: ${DEFAULT-VALUE})
+            """, defaultValue = "false"
     )
     boolean printConfiguration = false;
 
