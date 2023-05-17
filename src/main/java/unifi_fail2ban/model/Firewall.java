@@ -20,6 +20,10 @@ public class Firewall {
         this.blockedIps = blockedIps.toSet();
     }
 
+    public Firewall(Stream<String> blockedIps) {
+        this.blockedIps = blockedIps.toSet();
+    }
+
     public Firewall(Set<String> blockedIps) {
         this.blockedIps = blockedIps;
     }

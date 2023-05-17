@@ -3,6 +3,7 @@ package unifi_fail2ban.unifi_api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 
@@ -19,7 +20,7 @@ public record IpsEvent(
         @JsonProperty("srcipCountry") String srcIpCountry,
         @JsonProperty("dest_ip") String dstIp,
         @JsonProperty("dest_port") String dstPort,
-        @JsonProperty("dstipCountry") String dstIpCountry,
+        @JsonProperty("dstipCountry") @Nullable String dstIpCountry,
         @JsonProperty("proto") String protocol,
         @JsonProperty("inner_alert_signature") String alertSignature,
         @JsonProperty("inner_alert_category") String alertCategory

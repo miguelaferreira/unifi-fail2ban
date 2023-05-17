@@ -46,67 +46,67 @@ class AlertDetectionServiceTest {
         return Stream.of(
                 Arguments.of(
                         Named.of("Empty detection", ONLY_PORT_22),
-                        List.empty(),
+                        EMPTY_ALERTS,
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Only port 22", ONLY_PORT_22),
-                        List.empty(),
+                        EMPTY_ALERTS,
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Only port 22", ONLY_PORT_22),
-                        List.of(SSH_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST),
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Only port 22", ONLY_PORT_22),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Only port 443", ONLY_PORT_443),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Localhost port 22", LOCALHOST_PORT_22),
-                        List.of(SSH_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST),
                         Stream.of(SSH_TO_LOCALHOST)
                 ),
                 Arguments.of(
                         Named.of("Localhost port 22", LOCALHOST_PORT_22),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         Stream.of(SSH_TO_LOCALHOST)
                 ),
                 Arguments.of(
                         Named.of("Only port 443", ONLY_PORT_443),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Only localhost", ONLY_LOCALHOST),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         EMPTY_ALERTS
                 ),
                 Arguments.of(
                         Named.of("Localhost to port 443", LOCALHOST_PORT_443),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         Stream.of(HTTPS_TO_LOCALHOST)
                 ),
                 Arguments.of(
                         Named.of("Localhost to port 443", LOCALHOST_PORT_443),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST),
                         Stream.of(HTTPS_TO_LOCALHOST)
                 ),
                 Arguments.of(
                         Named.of("Localhost and private network to port 22", LOCALHOST_AND_PRIVATE_NETWORK_PORT_22),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST, SSH_TO_PRIVATE_NETWORK),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST, SSH_TO_PRIVATE_NETWORK),
                         Stream.of(SSH_TO_LOCALHOST, SSH_TO_PRIVATE_NETWORK)
                 ),
                 Arguments.of(
                         Named.of("Localhost and private network to port 22 while allowing localhost", LOCALHOST_AND_PRIVATE_NETWORK_PORT_22_ALLOWED_LOCALHOST),
-                        List.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST, SSH_TO_PRIVATE_NETWORK),
+                        Stream.of(SSH_TO_LOCALHOST, HTTPS_TO_LOCALHOST, SSH_TO_PRIVATE_NETWORK),
                         Stream.of(SSH_TO_PRIVATE_NETWORK)
                 )
         );

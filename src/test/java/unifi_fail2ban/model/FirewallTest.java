@@ -12,7 +12,7 @@ class FirewallTest {
 
     public static final String LOCALHOST_IP = "127.0.0.1";
     public static final String PRIVATE_NETWORK_IP = "192.168.1.30";
-    public static final List<String> LOCALHOST_AND_PRIVATE_NETWORK_IPS = List.of(LOCALHOST_IP, PRIVATE_NETWORK_IP);
+    public static final Stream<String> LOCALHOST_AND_PRIVATE_NETWORK_IPS = Stream.of(LOCALHOST_IP, PRIVATE_NETWORK_IP);
 
     @ParameterizedTest
     @MethodSource("blockIps_whenIpsAreAllNew_params")
@@ -23,7 +23,7 @@ class FirewallTest {
     public static Stream<Arguments> blockIps_whenIpsAreAllNew_params() {
         return Stream.of(
                 Arguments.of(new Firewall(), LOCALHOST_AND_PRIVATE_NETWORK_IPS, new Firewall(LOCALHOST_AND_PRIVATE_NETWORK_IPS)),
-                Arguments.of(new Firewall(List.of(LOCALHOST_IP)), List.of(PRIVATE_NETWORK_IP), new Firewall(LOCALHOST_AND_PRIVATE_NETWORK_IPS)),
+                Arguments.of(new Firewall(List.of(LOCALHOST_IP)), Stream.of(PRIVATE_NETWORK_IP), new Firewall(LOCALHOST_AND_PRIVATE_NETWORK_IPS)),
                 Arguments.of(new Firewall(List.of(LOCALHOST_IP)), LOCALHOST_AND_PRIVATE_NETWORK_IPS, new Firewall(LOCALHOST_AND_PRIVATE_NETWORK_IPS))
         );
     }

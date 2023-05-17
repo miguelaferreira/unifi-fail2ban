@@ -2,6 +2,11 @@ micronaut:
   application:
     name: unifiFail2ban
 
+unifi:
+  host: 192.168.1.1
+  site: default
+  firewall-group-name: "unifi-fail2ban"
+
 detect:
   allowed-cidrs:
     - "127.0.0.1/32"

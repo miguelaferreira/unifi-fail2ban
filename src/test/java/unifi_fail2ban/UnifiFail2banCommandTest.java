@@ -19,9 +19,11 @@ public class UnifiFail2banCommandTest {
         System.setOut(new PrintStream(baos));
 
         try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
-            String[] args = new String[]{};
+            String[] args = new String[]{"--unifi-username", "username", "--unifi-password", "password"};
             PicocliRunner.call(UnifiFail2banCommand.class, ctx, args);
-            Assertions.assertThat(baos.toString()).contains("Done!!");
+            Assertions.assertThat(baos.toString())
+                      .contains("Authenticating user admin to Unifi at localhost")
+                      .contains("Connection refused");
         }
     }
 

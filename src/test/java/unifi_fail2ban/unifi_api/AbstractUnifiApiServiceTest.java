@@ -10,10 +10,18 @@ class AbstractUnifiApiServiceTest {
     public static final List<String> FIREWALL_GROUP_MEMBERS = List.of("127.0.0.1", "8.8.8.8");
     public static final String UPDATED_IP = "4.4.4.4";
     public static final List<String> UPDATED_FIREWALL_GROUP_MEMBERS = List.of(UPDATED_IP);
-    final String username;
-    final String password;
+    String username;
+    String password;
+
+    public AbstractUnifiApiServiceTest() {
+    }
 
     public AbstractUnifiApiServiceTest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    void setCredentials(String username, String password) {
         this.username = username;
         this.password = password;
     }
