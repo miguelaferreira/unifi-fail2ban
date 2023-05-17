@@ -5,13 +5,14 @@ import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.List;
+import java.util.Objects;
 
 @Serdeable
 @Introspected
 @JsonIgnoreProperties(ignoreUnknown = true)
-record ListEventsResponse(Meta meta, List<IpsEvent> data) {
+record ListEventResponse(Meta meta, List<IpsEvent> data) implements ListResponse<IpsEvent> {
 
-    int getAvailable() {
-        return meta.count();
+    public int getAvailable() {
+        return Objects.requireNonNull(meta.count());
     }
 }

@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static unifi_fail2ban.unifi_api.UnifiApiClient.COOKIE_NAME_AUTH_TOKEN;
 
@@ -25,6 +26,7 @@ public class UnifiApiService {
     public static final String CSRF_TOKEN_KEY = "csrfToken";
     public static final String ADDRESS_GROUP = "address-group";
     public static final Base64.Decoder BASE64_DECODER = Base64.getUrlDecoder();
+    public static final int DEFAULT_LIMIT = 100;
 
     private final ObjectMapper mapper;
     private final UnifiApiClient client;
@@ -43,20 +45,15 @@ public class UnifiApiService {
     }
 
     public List<IpsEvent> listIpsAlerts() {
+        return listIpsAlerts(DEFAULT_LIMIT);
+    }
+
+    public List<IpsEvent> listIpsAlerts(int limit) {
         final String authToken = getAuthToken();
-        final ListEventsResponse firstResponse = client.listIpsEvents(authToken, 0, 100);
+        final ListEventResponse firstResponse = client.listIpsEvents(authToken, 0, limit);
         final List<IpsEvent> firstBatch = firstResponse.data();
-        final List<IpsEvent> events = new ArrayList<>(firstBatch);
         final int available = firstResponse.getAvailable();
-        log.debug("There are {} events avaialble", available);
-        log.debug("First request returned {} events", firstBatch.size());
-        while (events.size() < available) {
-            final ListEventsResponse response = client.listIpsEvents(authToken, events.size(), 100);
-            final List<IpsEvent> batch = response.data();
-            log.debug("Request returned {} events", batch.size());
-            events.addAll(batch);
-        }
-        return events;
+        return getAll(available, firstBatch, startIndex -> client.listIpsEvents(authToken, startIndex, limit));
     }
 
     public FirewallGroup createFirewallGroup(String name, List<String> members) {
@@ -88,13 +85,20 @@ public class UnifiApiService {
         client.deleteFirewallGroup(getAuthToken(), csrfToken(), groupId);
     }
 
-    String getAuthToken() {
-        return authCookie.getValue();
+    public List<FirewallRule> getFirewallRules() {
+        return client.getFirewallRule(getAuthToken(), csrfToken()).data();
     }
 
+    public void deleteFirewallRule(String ruleId) {
+        client.deleteFirewallRule(getAuthToken(), csrfToken(), ruleId);
+    }
 
     boolean isLoggedIn() {
         return authCookie != null && !authCookie.getValue().isBlank();
+    }
+
+    String getAuthToken() {
+        return authCookie.getValue();
     }
 
     String csrfToken() {
@@ -112,11 +116,16 @@ public class UnifiApiService {
         return "";
     }
 
-    List<FirewallRule> getFirewallRules() {
-        return client.getFirewallRule(getAuthToken(), csrfToken()).data();
-    }
-
-    void deleteFirewallRule(String ruleId) {
-        client.deleteFirewallRule(getAuthToken(), csrfToken(), ruleId);
+    private <T> List<T> getAll(int total, List<T> received, Function<Integer, ListResponse<T>> fetchOperation) {
+        log.debug("There are {} events available", total);
+        log.debug("First request returned {} events", received.size());
+        final ArrayList<T> elements = new ArrayList<>(received);
+        while (elements.size() < total) {
+            final ListResponse<T> response = fetchOperation.apply(elements.size());
+            final List<T> data = response.data();
+            log.debug("Request returned {} events", data.size());
+            elements.addAll(data);
+        }
+        return elements;
     }
 }

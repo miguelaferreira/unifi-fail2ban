@@ -24,14 +24,14 @@ interface UnifiApiClient {
     HttpResponse<Map<String, Object>> login(String username, String password);
 
     @Get("/proxy/network/api/s/${unifi.site:default}/stat/event")
-    ListEventsResponse listEvents(
+    ListEventResponse listEvents(
             @CookieValue(COOKIE_NAME_AUTH_TOKEN) String authToken,
             @QueryValue("_start") int startIndex,
             @QueryValue("_limit") int limit
     );
 
     @Get("/proxy/network/api/s/${unifi.site:default}/stat/ips/event")
-    ListEventsResponse listIpsEvents(
+    ListEventResponse listIpsEvents(
             @CookieValue(COOKIE_NAME_AUTH_TOKEN) String authToken,
             @QueryValue("_start") int startIndex,
             @QueryValue("_limit") int limit

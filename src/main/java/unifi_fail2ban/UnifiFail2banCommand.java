@@ -198,7 +198,7 @@ public class UnifiFail2banCommand implements Callable<Integer> {
     }
 
     private Stream<IpsEvent> getIpsEvents() {
-        return Stream.ofAll(apiService.listIpsAlerts());
+        return Stream.ofAll(apiService.listIpsAlerts(100));
     }
 
     private FirewallGroup getOrCreateFirewallGroup() {
