@@ -1,0 +1,24 @@
+micronaut:
+  application:
+    name: unifiFail2ban
+  http:
+    client:
+      ssl:
+        insecure-trust-all-certificates: true
+
+unifi:
+  host: localhost
+  site: default
+  firewall-group-name: "unifi-fail2ban"
+  username: "admin"
+  password: ""
+
+
+detect:
+  allowed-cidrs: []
+  protected-cidrs:
+    - "192.168.0.0/16"
+  protected-ports:
+    - 22
+    - 80
+    - 443
